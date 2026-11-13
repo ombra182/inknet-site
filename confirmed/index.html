@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080808">
+  <title>INKNET — Email confirmation</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="top">
+    <a href="/" class="brand">INK<span>NET</span><i>.</i></a>
+    <span class="eyebrow">BORN TO CONNECT</span>
+  </header>
+
+  <main class="confirm">
+    <div class="confirm-card">
+      <div class="confirm-icon" id="symbol">✓</div>
+      <h1 id="headline">CHECK YOUR EMAIL STATUS<span style="color:#ed2636">.</span></h1>
+      <p id="message">
+        If you opened the confirmation link from INKNET,
+        return to the app and sign in.
+      </p>
+      <a href="/" class="btn">BACK TO INKNET</a>
+    </div>
+  </main>
+
+  <footer>
+    <span>© INKNET 2026</span>
+    <span>BORN TO CONNECT.</span>
+  </footer>
+
+  <script>
+    const query = new URLSearchParams(location.search);
+    const fragment = new URLSearchParams(location.hash.slice(1));
+    const error = query.get('error') || fragment.get('error')
+      || query.get('status') === 'error';
+    const success = fragment.has('access_token')
+      || query.get('status') === 'returned';
+
+    if (error) {
+      document.getElementById('symbol').textContent = '!';
+      document.getElementById('headline').textContent = 'LINK ERROR.';
+      document.getElementById('message').textContent =
+        'This confirmation link may have expired or failed. Return to INKNET and try again.';
+    } else if (success) {
+      document.getElementById('headline').textContent = 'EMAIL LINK PROCESSED.';
+      document.getElementById('message').textContent =
+        'Return to INKNET and sign in with your email and password.';
+    }
+
+    // Remove session fragments from browser history without storing them.
+    if (location.hash) {
+      history.replaceState(null, '', location.pathname + location.search);
+    }
+  </script>
+</body>
+</html>

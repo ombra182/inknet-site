@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080808">
+  <meta name="description" content="INKNET connects tattoo artists, ideas and people. Born to Connect.">
+  <title>INKNET — Born to Connect.</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="top">
+    <a href="/" class="brand">INK<span>NET</span><i>.</i></a>
+    <span class="eyebrow">THE FUTURE OF TATTOO CONNECTIONS</span>
+  </header>
+
+  <main class="hero">
+    <div class="orb"></div>
+    <div class="hero-content">
+      <p class="kicker"><span class="pulse"></span> A NEW CONNECTION IS COMING</p>
+      <h1>YOUR NEXT<br>TATTOO <em>STARTS<br>HERE.</em></h1>
+      <p class="intro">
+        Discover artists who match your vision.<br>
+        Find projects made for your style.<br>
+        Connect through ink.
+      </p>
+      <div class="separator"></div>
+      <p class="tagline">BORN TO CONNECT<span>.</span></p>
+      <p class="launch">COMING SOON · MELBOURNE</p>
+    </div>
+  </main>
+
+  <footer>
+    <span>© INKNET 2026</span>
+    <span>BUILT FOR THE TATTOO COMMUNITY</span>
+  </footer>
+
+  <script>
+    // Handle legacy confirmation links that redirect to the homepage.
+    (() => {
+      const query = new URLSearchParams(location.search);
+      const hash = new URLSearchParams(location.hash.slice(1));
+      if (query.has('error') || hash.has('error')) {
+        location.replace('/confirmed/?status=error');
+      } else if (hash.has('access_token')) {
+        // Never store or expose authentication tokens on this static website.
+        history.replaceState(null, '', '/confirmed/?status=returned');
+        location.replace('/confirmed/?status=returned');
+      }
+    })();
+  </script>
+</body>
+</html>
