@@ -66,6 +66,73 @@ footer a{color:#ccc}
  .roles{gap:8px}
  .role span{padding:16px 5px;font-size:11px}
 }
+
+/* INKNET EARLY ACCESS CELEBRATION */
+[hidden]{display:none!important}
+.ink-success{
+ position:fixed;inset:0;z-index:9999;
+ display:flex;align-items:center;justify-content:center;
+ background:radial-gradient(ellipse at 50% 35%,#310b14 0%,#10090c 48%,#050505 100%);
+ padding:24px;overflow-y:auto;
+ animation:inkAppear .5s ease both;
+}
+.ink-success-card{
+ width:100%;max-width:560px;text-align:center;
+ padding:28px 14px;
+ animation:inkRise .8s cubic-bezier(.2,.8,.2,1) both;
+}
+.ink-success-mark{
+ position:relative;margin:8px auto 28px;
+ width:190px;height:190px;
+ display:grid;place-items:center;
+ filter:drop-shadow(0 0 35px #ed263655);
+ animation:inkFloat 4s ease-in-out infinite;
+}
+.ink-success-mark svg{width:100%;height:100%}
+.ink-success-eyebrow{
+ color:#ff4151;font-weight:900;letter-spacing:2.8px;
+ font-size:11px;margin:0 0 18px;
+}
+.ink-success h2{
+ font-size:clamp(55px,13vw,92px);
+ letter-spacing:-.085em;line-height:.95;
+ margin:0 0 18px;color:#fff;font-weight:950;
+}
+.ink-success h3{
+ font-size:clamp(20px,5vw,32px);
+ letter-spacing:-.04em;line-height:1.15;
+ color:#ed2636;margin:0 0 20px;
+}
+.ink-success-message{
+ color:#c4c4c4;line-height:1.7;
+ font-size:16px;max-width:420px;
+ margin:0 auto 28px;
+}
+.ink-success-divider{
+ width:65px;height:2px;background:#ed2636;
+ margin:30px auto;
+}
+.ink-success-footer{
+ font-size:12px;letter-spacing:2.2px;
+ color:#fff;font-weight:900;
+}
+.ink-success-close{
+ display:block;margin:30px auto 0;
+ padding:14px 28px;background:transparent;
+ color:white;border:1px solid #555;
+ border-radius:9px;font-weight:800;
+ cursor:pointer;
+}
+.ink-success-close:hover,.ink-success-close:focus-visible{
+ border-color:#ed2636;background:#241015;
+}
+@keyframes inkAppear{from{opacity:0}to{opacity:1}}
+@keyframes inkRise{from{opacity:0;transform:translateY(25px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes inkFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@media(prefers-reduced-motion:reduce){
+ .ink-success,.ink-success-card,.ink-success-mark{animation:none}
+}
+
 </style>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
@@ -164,6 +231,37 @@ Read our <a href="/privacy.html" target="_blank" rel="noopener">Privacy Notice</
 <span><a href="/privacy.html">PRIVACY</a> · <a href="mailto:ombratatt@gmail.com">CONTACT</a></span>
 </footer>
 
+
+<div id="ink-success" class="ink-success" role="dialog"
+ aria-modal="true" aria-labelledby="ink-success-title" hidden>
+  <div class="ink-success-card">
+    <div class="ink-success-mark" aria-hidden="true">
+      <svg viewBox="0 0 200 200" fill="none">
+        <circle cx="100" cy="100" r="96" stroke="#57202A"/>
+        <path d="M100 14V186M14 100H186M39 39L161 161M161 39L39 161"
+          stroke="#A63442" stroke-width="1.3"/>
+        <path d="M100 35L146 54L165 100L146 146L100 165L54 146L35 100L54 54Z"
+          stroke="#B23948" stroke-width="1.4"/>
+        <path d="M100 60L128 72L140 100L128 128L100 140L72 128L60 100L72 72Z"
+          stroke="#E44756" stroke-width="1.4"/>
+        <circle cx="100" cy="100" r="24" fill="#ED2636"/>
+        <path d="M89 100L97 108L112 91"
+          stroke="white" stroke-width="4"
+          stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <p class="ink-success-eyebrow">YOU'RE OFFICIALLY ON THE LIST</p>
+    <h2 id="ink-success-title">YOU'RE IN.</h2>
+    <h3 id="ink-success-headline">WELCOME TO THE INNER CIRCLE.</h3>
+    <p id="ink-success-message" class="ink-success-message"></p>
+    <div class="ink-success-divider"></div>
+    <div class="ink-success-footer">BORN TO CONNECT.</div>
+    <button type="button" id="ink-success-close" class="ink-success-close">
+      BACK TO INKNET
+    </button>
+  </div>
+</div>
+
 <script>
 (() => {
   const params = new URLSearchParams(location.search);
@@ -177,6 +275,14 @@ Read our <a href="/privacy.html" target="_blank" rel="noopener">Privacy Notice</
     location.replace("/confirmed/?status=returned");
     return;
   }
+
+  document.getElementById("ink-success-close").addEventListener("click", () => {
+    document.getElementById("ink-success").hidden = true;
+    document.body.style.overflow = "";
+    button.disabled = false;
+    button.textContent = "JOIN THE EARLY ACCESS LIST";
+    feedback.textContent = "";
+  });
 
   const form = document.getElementById("lead-form");
   const button = document.getElementById("submit");
@@ -223,10 +329,22 @@ Read our <a href="/privacy.html" target="_blank" rel="noopener">Privacy Notice</
         throw new Error(result.error || "Registration failed.");
       }
 
+      const joinedRole = selected.value;
       form.reset();
       feedback.className = "success";
-      feedback.textContent = "YOU'RE ON THE LIST! Welcome to INKNET. Born to Connect.";
+      feedback.textContent = "You're on the early access list!";
       button.textContent = "YOU'RE ON THE LIST ✓";
+
+      const successScreen = document.getElementById("ink-success");
+      document.getElementById("ink-success-headline").textContent =
+        "WELCOME TO THE INNER CIRCLE.";
+      document.getElementById("ink-success-message").textContent =
+        joinedRole === "artist"
+        ? `Welcome, ${name}. Your next client could start here. You're among the first artists joining INKNET.`
+        : `Welcome, ${name}. Your next tattoo starts with the right connection. You're among the first to discover INKNET.`;
+      successScreen.hidden = false;
+      document.body.style.overflow = "hidden";
+      document.getElementById("ink-success-close").focus();
     } catch (error) {
       feedback.className = "error";
       feedback.textContent = error.message || "Something went wrong. Please try again.";
