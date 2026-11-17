@@ -1,53 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#080808">
-  <meta name="description" content="INKNET connects tattoo artists, ideas and people. Born to Connect.">
-  <title>INKNET — Born to Connect.</title>
-  <link rel="stylesheet" href="/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080808">
+<meta name="description" content="INKNET. Discover the right tattoo artist, find projects that match your style, and connect. Join the early access list.">
+<title>INKNET — Born to Connect</title>
+<style>
+:root{color-scheme:dark;--red:#ed2636;--bg:#080808;--line:#292929}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:#f6f6f6;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}
+a{color:inherit}
+header{padding:26px 6%;border-bottom:1px solid #202020;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:950;letter-spacing:-1.5px;font-size:29px;text-decoration:none}
+.logo span{color:var(--red)}
+.topline,.eyebrow,.small{font-size:11px;letter-spacing:2px;font-weight:800}
+.topline{color:#888}
+main{max-width:1200px;margin:auto;padding:72px 6% 100px}
+.hero{position:relative;overflow:hidden;padding:28px 0 65px}
+.hero:after{content:"";position:absolute;z-index:-1;width:430px;height:430px;border:1px solid #52141c;border-radius:50%;right:-140px;top:0;box-shadow:0 0 0 55px #150a0c,0 0 0 115px #10090a}
+.eyebrow{color:var(--red)}
+h1{font-size:clamp(47px,9vw,112px);line-height:.96;letter-spacing:-.075em;margin:26px 0;font-weight:950}
+h1 span{color:var(--red)}
+.subtitle{font-size:clamp(16px,2.2vw,20px);line-height:1.65;color:#aaa;max-width:600px}
+.meta{display:flex;gap:20px;flex-wrap:wrap;color:#888;margin-top:32px}
+.meta span{font-size:11px;letter-spacing:1.2px;font-weight:800}
+.section{padding:65px 0;border-top:1px solid #222}
+.section h2{font-size:clamp(29px,5vw,54px);letter-spacing:-.05em;margin:10px 0 20px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+.step{border:1px solid var(--line);border-radius:14px;padding:25px;background:#111}
+.step strong{color:var(--red);font-size:13px}
+.step h3{font-size:20px;margin:18px 0 8px}
+.step p{color:#aaa;font-size:14px;line-height:1.6;margin:0}
+.form-panel{max-width:680px;margin:auto;background:#111;border:1px solid #383838;border-radius:22px;padding:36px}
+.form-panel h2{margin:0 0 8px}
+.form-panel>p{color:#aaa;line-height:1.6}
+label.field{display:block;font-size:13px;font-weight:750;margin:22px 0 8px}
+input[type=text],input[type=tel]{width:100%;padding:17px;border:1px solid #404040;border-radius:9px;background:#1a1a1a;color:white;font:inherit;outline:none}
+input:focus{border-color:var(--red)}
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.role{position:relative;cursor:pointer}
+.role input{position:absolute;opacity:0}
+.role span{display:block;border:1px solid #444;border-radius:11px;padding:18px 12px;text-align:center;font-weight:800;font-size:12px;letter-spacing:.5px}
+.role input:checked+span{border-color:var(--red);background:#3a1118;color:white}
+.role input:focus-visible+span{outline:2px solid white;outline-offset:3px}
+.consent{display:flex;align-items:flex-start;gap:10px;margin-top:25px;color:#bbb;font-size:12px;line-height:1.65}
+.consent input{width:18px;height:18px;accent-color:var(--red);flex-shrink:0;margin-top:1px}
+.privacy-note{color:#999;font-size:12px;line-height:1.65;margin:16px 0}
+.privacy-note a{color:white}
+.challenge{min-height:65px;margin:20px 0}
+.submit{background:var(--red);border:0;color:white;border-radius:10px;padding:19px;width:100%;font-size:14px;font-weight:900;letter-spacing:1px;cursor:pointer}
+.submit:disabled{opacity:.55;cursor:wait}
+#feedback{min-height:24px;font-size:13px;line-height:1.5}
+#feedback.error{color:#ff7b83}
+#feedback.success{color:#b8eab8}
+footer{padding:28px 6%;border-top:1px solid #252525;display:flex;justify-content:space-between;flex-wrap:wrap;gap:15px;color:#858585;font-size:11px;letter-spacing:1px}
+footer a{color:#ccc}
+@media(max-width:650px){
+ header{padding:20px 6%}.topline{font-size:8px}
+ main{padding:45px 6% 70px}
+ .hero{padding-bottom:45px}
+ .steps{grid-template-columns:1fr}
+ .form-panel{padding:23px 19px}
+ .roles{gap:8px}
+ .role span{padding:16px 5px;font-size:11px}
+}
+</style>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
-  <header class="top">
-    <a href="/" class="brand">INK<span>NET</span><i>.</i></a>
-    <span class="eyebrow">THE FUTURE OF TATTOO CONNECTIONS</span>
-  </header>
+<header>
+<a class="logo" href="/">INK<span>NET.</span></a>
+<div class="topline">BORN TO CONNECT.</div>
+</header>
 
-  <main class="hero">
-    <div class="orb"></div>
-    <div class="hero-content">
-      <p class="kicker"><span class="pulse"></span> A NEW CONNECTION IS COMING</p>
-      <h1>YOUR NEXT<br>TATTOO <em>STARTS<br>HERE.</em></h1>
-      <p class="intro">
-        Discover artists who match your vision.<br>
-        Find projects made for your style.<br>
-        Connect through ink.
-      </p>
-      <div class="separator"></div>
-      <p class="tagline">BORN TO CONNECT<span>.</span></p>
-      <p class="launch">COMING SOON · MELBOURNE</p>
-    </div>
-  </main>
+<main>
+<section class="hero">
+<div class="eyebrow">THE NEXT ERA OF TATTOO CONNECTIONS</div>
+<h1>THE RIGHT ARTIST.<br><span>THE RIGHT PROJECT.</span><br>ONE CONNECTION.</h1>
+<p class="subtitle">
+Your tattoo idea deserves the right artist.
+Your talent deserves the right projects.
+INKNET brings both sides together.
+</p>
+<div class="meta">
+<span>CLIENTS + ARTISTS</span>
+<span>EARLY ACCESS</span>
+<span>LAUNCHING 2027</span>
+</div>
+</section>
 
-  <footer>
-    <span>© INKNET 2026</span>
-    <span>BUILT FOR THE TATTOO COMMUNITY</span>
-  </footer>
+<section class="section">
+<div class="eyebrow">A NEW WAY TO CONNECT</div>
+<h2>YOUR NEXT CONNECTION STARTS HERE.</h2>
+<div class="steps">
+<div class="step">
+<strong>01 / SHARE</strong>
+<h3>Your vision.</h3>
+<p>Clients post their tattoo ideas and discover artists who match their style.</p>
+</div>
+<div class="step">
+<strong>02 / DISCOVER</strong>
+<h3>Your opportunity.</h3>
+<p>Artists explore real tattoo projects and apply to the ones that fit their work.</p>
+</div>
+<div class="step">
+<strong>03 / CONNECT</strong>
+<h3>Your match.</h3>
+<p>Discover, match and start a conversation. Born to Connect.</p>
+</div>
+</div>
+</section>
 
-  <script>
-    // Handle legacy confirmation links that redirect to the homepage.
-    (() => {
-      const query = new URLSearchParams(location.search);
-      const hash = new URLSearchParams(location.hash.slice(1));
-      if (query.has('error') || hash.has('error')) {
-        location.replace('/confirmed/?status=error');
-      } else if (hash.has('access_token')) {
-        // Never store or expose authentication tokens on this static website.
-        history.replaceState(null, '', '/confirmed/?status=returned');
-        location.replace('/confirmed/?status=returned');
+<section class="section" id="early-access">
+<div class="form-panel">
+<div class="eyebrow">BE AMONG THE FIRST</div>
+<h2>SECURE EARLY ACCESS.</h2>
+<p>Join the first INKNET community. Leave your details and be among the first to hear when we launch.</p>
+
+<form id="lead-form">
+<label class="field">I AM A...</label>
+<div class="roles" role="group" aria-label="Choose your role">
+<label class="role">
+<input type="radio" name="user_type" value="artist" required>
+<span>TATTOO ARTIST</span>
+</label>
+<label class="role">
+<input type="radio" name="user_type" value="client" required>
+<span>TATTOO CLIENT</span>
+</label>
+</div>
+
+<label class="field" for="name">YOUR NAME</label>
+<input id="name" name="name" type="text" maxlength="100" autocomplete="name" placeholder="Your name" required>
+
+<label class="field" for="phone">PHONE NUMBER</label>
+<input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+61 4XX XXX XXX" required>
+<p class="privacy-note">Include your country code, e.g. +61 for Australia.</p>
+
+<label class="consent">
+<input type="checkbox" id="sms">
+<span>I agree to receive optional INKNET promotional SMS, including launch updates and offers. I can opt out at any time. Consent is not required to join the early access list.</span>
+</label>
+
+<p class="privacy-note">
+By submitting, you agree that INKNET may store your name, phone number and role to manage your early access interest.
+Read our <a href="/privacy.html" target="_blank" rel="noopener">Privacy Notice</a>.
+</p>
+
+<div class="challenge">
+<div class="cf-turnstile" data-sitekey="0x4AAAAAAGGCSSSIpSymmRSE" data-theme="dark" data-size="flexible"></div>
+</div>
+<button class="submit" id="submit" type="submit">JOIN THE EARLY ACCESS LIST</button>
+<p id="feedback" role="status" aria-live="polite"></p>
+</form>
+</div>
+</section>
+</main>
+
+<footer>
+<span>© 2026 INKNET · BORN TO CONNECT.</span>
+<span><a href="/privacy.html">PRIVACY</a> · <a href="mailto:ombratatt@gmail.com">CONTACT</a></span>
+</footer>
+
+<script>
+(() => {
+  const params = new URLSearchParams(location.search);
+  const hash = new URLSearchParams(location.hash.slice(1));
+  if (params.has("error") || hash.has("error")) {
+    location.replace("/confirmed/?status=error");
+    return;
+  }
+  if (hash.has("access_token")) {
+    history.replaceState(null, "", "/confirmed/?status=returned");
+    location.replace("/confirmed/?status=returned");
+    return;
+  }
+
+  const form = document.getElementById("lead-form");
+  const button = document.getElementById("submit");
+  const feedback = document.getElementById("feedback");
+  const endpoint = "https://fhuetsgdikztguykixfe.supabase.co/functions/v1/inknet-early-access";
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const selected = form.querySelector('input[name="user_type"]:checked');
+    const phone = document.getElementById("phone").value.trim().replace(/[\s().-]/g, "");
+    const name = document.getElementById("name").value.trim();
+
+    feedback.className = "error";
+    if (!selected || name.length < 2 || !/^\+[1-9]\d{7,14}$/.test(phone)) {
+      feedback.textContent = "Please enter your name, role and a valid international phone number.";
+      return;
+    }
+
+    const token = window.turnstile?.getResponse();
+    if (!token) {
+      feedback.textContent = "Please complete the security verification.";
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = "SUBMITTING...";
+    feedback.textContent = "";
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          phone,
+          user_type: selected.value,
+          sms_marketing_consent: document.getElementById("sms").checked,
+          turnstile_token: token
+        })
+      });
+
+      const result = await response.json();
+      if (!response.ok || result.success !== true) {
+        throw new Error(result.error || "Registration failed.");
       }
-    })();
-  </script>
+
+      form.reset();
+      feedback.className = "success";
+      feedback.textContent = "YOU'RE ON THE LIST! Welcome to INKNET. Born to Connect.";
+      button.textContent = "YOU'RE ON THE LIST ✓";
+    } catch (error) {
+      feedback.className = "error";
+      feedback.textContent = error.message || "Something went wrong. Please try again.";
+      button.disabled = false;
+      button.textContent = "JOIN THE EARLY ACCESS LIST";
+    } finally {
+      window.turnstile?.reset();
+    }
+  });
+})();
+</script>
 </body>
 </html>
