@@ -37,7 +37,7 @@ h1 span{color:var(--red)}
 .form-panel h2{margin:0 0 8px}
 .form-panel>p{color:#aaa;line-height:1.6}
 label.field{display:block;font-size:13px;font-weight:750;margin:22px 0 8px}
-input[type=text],input[type=tel]{width:100%;padding:17px;border:1px solid #404040;border-radius:9px;background:#1a1a1a;color:white;font:inherit;outline:none}
+input[type=text],input[type=email]{width:100%;padding:17px;border:1px solid #404040;border-radius:9px;background:#1a1a1a;color:white;font:inherit;outline:none}
 input:focus{border-color:var(--red)}
 .roles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
 .role{position:relative;cursor:pointer}
@@ -202,24 +202,24 @@ INKNET brings both sides together.
 <label class="field" for="name">YOUR NAME</label>
 <input id="name" name="name" type="text" maxlength="100" autocomplete="name" placeholder="Your name" required>
 
-<label class="field" for="phone">PHONE NUMBER</label>
-<input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+61 4XX XXX XXX" required>
-<p class="privacy-note">Include your country code, e.g. +61 for Australia.</p>
+<label class="field" for="email">EMAIL ADDRESS</label>
+<input id="email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" placeholder="you@example.com" required>
+<p class="privacy-note">Be first to discover INKNET. Your invitation starts here.</p>
 
 <label class="consent">
-<input type="checkbox" id="sms">
-<span>I agree to receive optional INKNET promotional SMS, including launch updates and offers. I can opt out at any time. Consent is not required to join the early access list.</span>
+<input type="checkbox" id="email-consent" required>
+<span>I agree to receive INKNET Early Access news and launch updates by email. I can unsubscribe at any time.</span>
 </label>
 
 <p class="privacy-note">
-By submitting, you agree that INKNET may store your name, phone number and role to manage your early access interest.
+By joining, you agree that INKNET may store your name, email address, role and consent record to manage launch communications.
 Read our <a href="/privacy.html" target="_blank" rel="noopener">Privacy Notice</a>.
 </p>
 
 <div class="challenge">
 <div class="cf-turnstile" data-sitekey="0x4AAAAAAGGCSSSIpSymmRSE" data-theme="dark" data-size="flexible"></div>
 </div>
-<button class="submit" id="submit" type="submit">JOIN THE EARLY ACCESS LIST</button>
+<button class="submit" id="submit" type="submit" disabled>JOIN THE EARLY ACCESS LIST</button>
 <p id="feedback" role="status" aria-live="polite"></p>
 </form>
 </div>
@@ -279,7 +279,7 @@ Read our <a href="/privacy.html" target="_blank" rel="noopener">Privacy Notice</
   document.getElementById("ink-success-close").addEventListener("click", () => {
     document.getElementById("ink-success").hidden = true;
     document.body.style.overflow = "";
-    button.disabled = false;
+    button.disabled = !document.getElementById("email-consent").checked;
     button.textContent = "JOIN THE EARLY ACCESS LIST";
     feedback.textContent = "";
   });
@@ -289,15 +289,20 @@ Read our <a href="/privacy.html" target="_blank" rel="noopener">Privacy Notice</
   const feedback = document.getElementById("feedback");
   const endpoint = "https://fhuetsgdikztguykixfe.supabase.co/functions/v1/inknet-early-access";
 
+  const consentBox = document.getElementById("email-consent");
+  consentBox.addEventListener("change", () => {
+    button.disabled = !consentBox.checked;
+  });
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const selected = form.querySelector('input[name="user_type"]:checked');
-    const phone = document.getElementById("phone").value.trim().replace(/[\s().-]/g, "");
+    const email = document.getElementById("email").value.trim().toLowerCase();
     const name = document.getElementById("name").value.trim();
 
     feedback.className = "error";
-    if (!selected || name.length < 2 || !/^\+[1-9]\d{7,14}$/.test(phone)) {
-      feedback.textContent = "Please enter your name, role and a valid international phone number.";
+    if (!selected || name.length < 2 || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !consentBox.checked) {
+      feedback.textContent = "Please enter your name, role, valid email and accept the launch updates.";
       return;
     }
 
@@ -317,9 +322,9 @@ Read our <a href="/privacy.html" target="_blank" rel="noopener">Privacy Notice</
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
-          phone,
+          email,
           user_type: selected.value,
-          sms_marketing_consent: document.getElementById("sms").checked,
+          email_marketing_consent: true,
           turnstile_token: token
         })
       });
@@ -331,6 +336,7 @@ Read our <a href="/privacy.html" target="_blank" rel="noopener">Privacy Notice</
 
       const joinedRole = selected.value;
       form.reset();
+      button.disabled = true;
       feedback.className = "success";
       feedback.textContent = "You're on the early access list!";
       button.textContent = "YOU'RE ON THE LIST ✓";
@@ -348,7 +354,7 @@ Read our <a href="/privacy.html" target="_blank" rel="noopener">Privacy Notice</
     } catch (error) {
       feedback.className = "error";
       feedback.textContent = error.message || "Something went wrong. Please try again.";
-      button.disabled = false;
+      button.disabled = !consentBox.checked;
       button.textContent = "JOIN THE EARLY ACCESS LIST";
     } finally {
       window.turnstile?.reset();
